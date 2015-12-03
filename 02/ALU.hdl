@@ -42,5 +42,31 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
+    Mux16(a=x,b=false,sel=zx,out=ZeroX);
+    Mux16(a=y,b=false,sel=zy,out=ZeroY);
+    Not16(in=ZeroX,out=NotZeroX);
+    Not16(in=ZeroY,out=NotZeroY);
+    Mux16(a=ZeroX,b=NotZeroX,sel=nx,out=FinalX);
+    Mux16(a=ZeroY,b=NotZeroY,sel=ny,out=FinalY);
+    Add16(a=FinalX,b=FinalY,out=XAddY);
+    And16(a=FinalX,b=FinalY,out=XAndY);
+    Mux16(a=XAndY,b=XAddY,sel=f,out=XY);
+    Not16(in=XY,out=NotXY);
+    Mux16(a=XY,b=NotXY,sel=no,out=out,out[15]=ng,out[0]=o0,out[1]=o1,out[2]=o2,out[3]=o3,out[4]=o4,out[5]=o5,out[6]=o6,out[7]=o7,out[8]=o8,out[9]=o9,out[10]=o10,out[11]=o11,out[12]=o12,out[13]=o13,out[14]=o14,out[15]=o15);
+    Or(a=o0,b=o1,out=f1);
+    Or(a=f1,b=o2,out=f2);
+    Or(a=f2,b=o3,out=f3);
+    Or(a=f3,b=o4,out=f4);
+    Or(a=f4,b=o5,out=f5);
+    Or(a=f5,b=o6,out=f6);
+    Or(a=f6,b=o7,out=f7);
+    Or(a=f7,b=o8,out=f8);
+    Or(a=f8,b=o9,out=f9);
+    Or(a=f9,b=o10,out=f10);
+    Or(a=f10,b=o11,out=f11);
+    Or(a=f11,b=o12,out=f12);
+    Or(a=f12,b=o13,out=f13);
+    Or(a=f13,b=o14,out=f14);
+    Or(a=f14,b=o15,out=f15);
+    Not(in=f15,out=zr);
 }
